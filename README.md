@@ -14,7 +14,7 @@
 
 ## Content: 
 * <a href='#introduction'>1. Introduction</a>
-* <a href='#Running TextBind'>2. Running TextBind</a>
+* <a href='#running_textbind'>2. Running TextBind</a>
     * <a href='#install_environment'>2.1. Environment Installation</a>
     * <a href='#prepare_blip2_vision_model'>2.2. Prepare BLIP-2 Vsion Model</a>
     * <a href='#prepare_textbind_weights'>2.3. Prepare TextBind Weights</a>
