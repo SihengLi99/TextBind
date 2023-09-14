@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+        const URL_PREFIX = '{{ url_prefix }}';
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mim</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #chat-container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            flex-grow: 1;
+        }
+
+        #chat-output {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            height: calc(100vh - 200px);
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            padding-top: 30px; /* Add padding to the top */
+            border-radius: 5px;
+        }
+
+        #chat-form {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            align-items: flex-start;
+        }
+        button {
+            white-space: nowrap;
+            background-color: #075E54; /* Set the background color to WhatsApp green */
+            color: #fff; /* Set the text color to white */
+            border: none; /* Remove the default border */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+            padding: 8px 16px; /* Add padding for a larger button */
+            cursor: pointer; /* Change the cursor to a pointer on hover */
+            font-size: 1rem; /* Set the font size */
+            font-weight: bold; /* Set the font weight */
+            transition: background-color 0.3s ease; /* Add a transition for the background color */
+        }
+
+        button:hover {
+            background-color: #128C7E; /* Change the background color on hover */
+        }
+
+        label {
+            background-color: #075E54; /* Set the background color to WhatsApp green */
+            color: #fff; /* Set the text color to white */
+            border: none; /* Remove the default border */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+            padding: 8px 16px; /* Add padding for a larger label */
+            cursor: pointer; /* Change the cursor to a pointer on hover */
+            font-size: 1rem; /* Set the font size */
+            font-weight: bold; /* Set the font weight */
+            transition: background-color 0.3s ease; /* Add a transition for the background color */
+            white-space: nowrap;
+        }
+
+        label:hover {
+            background-color: #128C7E; /* Change the background color on hover */
+        }
+
+        #nlp-engine {
+            background-color: #075E54; /* Set the background color to WhatsApp green */
+            color: #fff; /* Set the text color to white */
+            border: none; /* Remove the default border */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+            padding: 8px; /* Add padding for a larger dropdown */
+            cursor: pointer; /* Change the cursor to a pointer on hover */
+            font-size: 1rem; /* Set the font size */
+            font-weight: bold; /* Set the font weight */
+            appearance: none; /* Remove the default appearance */
+        }
+
+        #nlp-engine option {
+            background-color: #075E54; /* Set the background color to WhatsApp green */
+            color: #fff; /* Set the text color to white */
+            font-weight: bold; /* Set the font weight */
+        }
+        #user-input {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            padding: 5px;
+            min-height: 20px;
+            resize: none; 
+            overflow-y: auto;
+        }
+        .message {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .user-message {
+            background-color: #DCF8C6;
+            color: #000;
+            align-self: flex-end;
+        }
+
+        .chatbot-message {
+            background-color: #ECECEC;
+            color: #000;
+            align-self: flex-start;
+        }
+        .message::before {
+            content: attr(data-speaker);
+            font-size: 0.8rem;
+            font-weight: bold;
+            position: absolute;
+            top: -20px;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #075E54;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        #instructions {
+            width: 120%; /* Increase the width percentage */
+            max-width: 1000px; /* Increase the max-width value */
+            margin: 0 auto;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .title-blue {
+            color: blue;
+        }
+
+        .title-green {
+            color: green;
+        }
+        .title-red {
+            color: red;
+        }
+
+        .title-green {
+            color: green;
+        }
+        #instructions h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="instructions">
+        <h2>Instructions</h2>
+        <p><strong><span class="title-blue">What it is:</span></strong> This is the demo of <a href="https://textbind.github.io">TextBind</a>. This demo supports interleaved text and images in a multi-turn conversation. It can also generate appropriate images without showing an explicit description.</p>
+        <p><strong><span class="title-green">How to use:</span></strong></p>
+        <ol>
+            <li>
+                <strong>Send:</strong> Click to send the content in the input box to the model. You can provide interleaved text and images in the input box.
+            </li>
+            <li>
+                <strong>Upload IMG:</strong> Click to upload an image from your local device to the input box. The image will appear at the position of your cursor.
+            </li>
+            <li>
+                <strong>Example:</strong> Click to show a random conversation example.
+            </li>
+        </ol>
+        <p><strong><span class="title-red">Tips: </span></strong> (1) If you want to start a new conversation, please use <u>ctrl+R or (cmd+R) to refresh the webpage</u>. (2) Uploading <u>large images (>1MB) may fail</u>, please be careful about the image size. (3) Our server uses the FIFO strategy to handle user requests. Therefore, the waiting time may be very long when there are many users. </p>
+    </div>
+    <main>
+        <div id="chat-container">
+            <div id="chat-output"></div>
+            <form id="chat-form">
+                <div id="user-input" contenteditable="true" placeholder="Type your message..." style="border: 1px solid #ccc; min-height: 20px; padding: 5px;"></div>
+                <input type="file" id="image-input" accept="image/*" style="display: none;">
+                <button type="submit">Send</button>
+                <label for="image-input">Upload IMG</label>
+                <!-- <select id="nlp-engine"> -->
+                    <!--  <option value="stage_1">Stage 1</option> -->
+                    <!-- Add more options for additional NLP engines -->
+                <!-- </select> -->
+                <button id="load-random-convo">Example</button>
+            </form>
+            
+        </div>
+    </main>
+    <script>
+        // async function loadEngineList() {
+        //     const response = await fetch('engines.json');
+        //     const engines = await response.json();
+        //     const nlpEngineSelect = document.getElementById('nlp-engine');
+        // 
+        //     engines.forEach((engine) => {
+        //         const option = document.createElement('option');
+        //         option.value = engine.id;
+        //         option.textContent = engine.name;
+        //         nlpEngineSelect.appendChild(option);
+        //     });
+        // }
+        // window.addEventListener('DOMContentLoaded', loadEngineList);
+        // async function fetchEngineList() {
+        //     const response = await fetch('/engine-list');
+        //     const engines = await response.json();
+        //     const nlpEngineSelect = document.getElementById('nlp-engine');
+        
+        //     engines.forEach((engine) => {
+        //         const option = document.createElement('option');
+        //         option.value = engine.id;
+        //         option.textContent = engine.name;
+        //         nlpEngineSelect.appendChild(option);
+        //     });
+        // }
+        
+        // Fetch the engine list when the page loads
+        // fetchEngineList();
+        function insertImage(imageDataUrl) {
+            const userInput = document.getElementById('user-input');
+            const img = document.createElement('img');
+            img.src = imageDataUrl;
+            img.style.maxWidth = '200px';
+            img.style.display = 'block';
+            userInput.appendChild(img);
+        }
+        function scrollToLatestMessage() {
+            const chatOutput = document.getElementById('chat-output');
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+        }
+        function displayChatbotResponse(responseItems) {
+            const chatOutput = document.getElementById('chat-output');
+            const message = document.createElement('div');
+            message.classList.add('message', 'chatbot-message');
+            message.setAttribute('data-speaker', 'Assistant');
+
+            responseItems.forEach((item) => {
+                if (item.type === 'text') {
+                    const paragraph = document.createElement('p');
+                    paragraph.textContent = item.value;
+                    message.appendChild(paragraph);
+                } else if (item.type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = item.value;
+                    img.alt = 'Chatbot Image';
+                    img.style.maxWidth = '200px';
+                    message.appendChild(img);
+                }
+            });
+
+            chatOutput.appendChild(message);
+            setTimeout(scrollToLatestMessage, 50);
+        }
+
+        async function loadRandomConversation() {
+            const chatOutput = document.getElementById('chat-output');
+            chatOutput.innerHTML = '';
+
+            const response = await fetch(`${URL_PREFIX}/random_conversation`);
+            const data = await response.json();
+            const conversation = data.conversation;
+
+            conversation.forEach((item) => {
+                const message = document.createElement('div');
+                message.classList.add('message', item.role === 'user' ? 'user-message' : 'chatbot-message');
+                message.setAttribute('data-speaker', item.role === 'user' ? 'You' : 'Assistant');
+
+                let content = item.content;
+                if (item.image_list) {
+                    item.image_list.forEach((image, index) => {
+                        const imgTag = '<image>';
+                        const imgReplacement = `<br><img src="${image}" alt="Image" style="max-width: 200px;"><br>`;
+                        content = content.replace(imgTag, imgReplacement);
+                    });
+                }
+
+                const contentWrapper = document.createElement('div');
+                contentWrapper.innerHTML = content;
+                message.appendChild(contentWrapper);
+
+                chatOutput.appendChild(message);
+            });
+
+
+            scrollToLatestMessage();
+        }
+
+        document.getElementById('load-random-convo').addEventListener('click', loadRandomConversation);
+
+        document.getElementById('user-input').addEventListener('paste', (e) => {
+            e.preventDefault();
+            const plainText = e.clipboardData.getData('text/plain');
+            document.execCommand('insertText', false, plainText);
+            
+            const inputBox = document.getElementById('user-input');
+            inputBox.style.display = 'none';
+            void inputBox.offsetHeight;
+            inputBox.style.display = '';
+        });
+        
+        document.getElementById('chat-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userInput = document.getElementById('user-input');
+            // const nlpEngineSelect = document.getElementById('nlp-engine'); 
+            const chatOutput = document.getElementById('chat-output');
+            const message = userInput.innerHTML;
+
+            if (message) {
+                const userMessage = document.createElement('div');
+                userMessage.classList.add('message', 'user-message');
+                userMessage.setAttribute('data-speaker', 'You');
+                userMessage.innerHTML = message;
+                chatOutput.appendChild(userMessage);
+
+
+                // Add the loading spinner to the chat output
+                const loadingSpinner = document.createElement('div');
+                loadingSpinner.classList.add('message', 'chatbot-message', 'loading-spinner');
+                chatOutput.appendChild(loadingSpinner);
+
+                userInput.innerHTML = '';
+                const chatHistory = chatOutput.innerHTML;
+
+                const response = await fetch(`${URL_PREFIX}/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // body: JSON.stringify({ user_input: message, chat_history: chatHistory, nlp_engine: nlpEngineSelect.value}),
+                    body: JSON.stringify({ user_input: message, chat_history: chatHistory}),
+                });
+
+                // Remove the loading spinner from the chat output
+                chatOutput.removeChild(loadingSpinner);
+
+                const data = await response.json();
+                displayChatbotResponse(data.response);
+            }
+        });
+    document.getElementById('image-input').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                insertImage(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+        e.target.value = '';
+    });
+    </script>
+</body>
+</html>
