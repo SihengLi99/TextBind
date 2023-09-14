@@ -33,7 +33,7 @@
 ### 1. Introduction: <a href='#content'>[Back to Top]</a>
 
 <p align="center" width="100%">
-<img src="./introduction.png" style="width: 80%; min-width: 300px; display: block; margin: auto;">
+<img src="./introduction.png" style="min-width: 300px; display: block; margin: auto;">
 </p>
 
 Large language models with instruction-following abilities have revolutionized the field of artificial intelligence. These models show exceptional generalizability to tackle various real-world tasks through their natural language interfaces. However, their performance heavily relies on high-quality exemplar data, which is often difficult to obtain. This challenge is further exacerbated when it comes to multimodal instruction following. We introduce TextBind, an almost annotation-free framework for empowering larger language models with the multi-turn interleaved multimodal instruction-following capabilities. Our approach requires only image-caption pairs and generates multi-turn multimodal instruction-response conversations from a language model.
