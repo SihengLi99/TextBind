@@ -5,7 +5,7 @@
 ![Model Weight License](https://img.shields.io/badge/Model_Weight%20License-CC%20By%20NC%204.0-red.svg)
 
 <p align="left">
-   🌐 <a href="https://textbind.github.io" target="_blank">Project Page</a> • 🤗 <a href="https://ailabnlp.tencent.com/research_demos/textbind/" target="_blank">Online Demo</a> • 📃 <a href="http://arxiv.org/abs/2305.16355" target="_blank">Paper</a> •  ⏬ <a href="https://drive.google.com/file/d/19JPm7X1Rv8CZfEvJjKwSqMr_Wd_KODET/view?usp=sharing" target="_blank">Data</a> • 🤖 <a href="https://huggingface.co/SihengLi/TextBind" target="_blank">Model</a>
+   🌐 <a href="https://textbind.github.io" target="_blank">Project Page</a> • 🤗 <a href="https://ailabnlp.tencent.com/research_demos/textbind/" target="_blank">Online Demo</a> • 📃 <a href="http://arxiv.org/abs/2305.16355" target="_blank">Paper</a> •  ⏬ <a href="https://drive.google.com/drive/folders/1-SkzQRInSfrVyZeB0EZJzpCPXXwHb27W?usp=sharing" target="_blank">Data</a> • 🤖 <a href="https://huggingface.co/SihengLi/TextBind" target="_blank">Model</a>
 </p>
 
 
@@ -116,7 +116,7 @@ bash scripts/run_demo.sh
 |**Training Stage**|**Dataset Address**|
 |:-------------:|:-------------:|
 |Multimodal Alignment|[CC3M+CC12M+SBU](https://github.com/Vision-CAIR/MiniGPT-4/blob/main/dataset/README_1_STAGE.md)|
-|Multimodal Instruction Following|[TextBind](https://drive.google.com/file/d/19JPm7X1Rv8CZfEvJjKwSqMr_Wd_KODET/view?usp=sharing)|
+|Multimodal Instruction Following|[TextBind](https://drive.google.com/drive/folders/1-SkzQRInSfrVyZeB0EZJzpCPXXwHb27W?usp=sharing)|
 
 After downloading, put the downloaded file under the [./data/](./data/) directory.
 
