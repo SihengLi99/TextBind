@@ -16,13 +16,14 @@
 * <a href='#introduction'>1. Introduction</a>
 * <a href='#running_textbind'>2. Build Our Demo Locally</a>
     * <a href='#install_environment'>2.1. Environment Installation</a>
-    * <a href='#prepare_blip2_vision_model'>2.2. Prepare BLIP-2 Vsion Model</a>
+    * <a href='#prepare_vision_model'>2.2. Prepare Vsion Model</a>
     * <a href='#prepare_textbind_weights'>2.3. Prepare TextBind Weights</a>
     * <a href='#running_demo'>2.4. Running Demo</a>
 * <a href='#train_textbind'>3. Train Your Own Models Using Our TextBind Recipe</a>
     * <a href='#data_preparation'>3.1. Data Preparation</a>
-    * <a href='#training_configurations'>3.2. Training Configurations</a>
-    * <a href='#training_textbind'>3.3. Training TextBind</a>
+    * <a href='#prepare_blip2_qformer'>3.2. Prepare BLIP-2 Q-Former</a>
+    * <a href='#training_configurations'>3.3. Training Configurations</a>
+    * <a href='#training_textbind'>3.4. Training TextBind</a>
 * <a href='#license'>Usage and License Notices</a>
 * <a href='#citation'>Citation</a>
 
@@ -57,20 +58,16 @@ Then install the required environment, please run
 pip install -r requirements.txt
 ```
 
-<span id='prepare_blip2_vision_model'/>
+<span id='prepare_vision_model'/>
 
-#### 2.2. Prepare BLIP-2 Vsion Model and Q-Former:
-BLIP-2 vision model and Q-Former is utilized for initialization, run:
+#### 2.2. Prepare Vsion Model:
+Follow BLIP-2, we use EVA-CLIP as the vision model, you can run the following commands to prepare:
 ```
 import torch
 from transformers import Blip2ForConditionalGeneration
 model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-flan-t5-xxl")
 vision_model = model.vision_model
 vision_model.save_pretrained("checkpoint/blip2_vision_model")
-
-state_dict = model.state_dict()
-state_dict = {key: value for key, value in state_dict.items() if key.split(".")[0] in ["query_tokens", "qformer"]}
-torch.save(state_dict, "checkpoint/blip2_qformer.pt")
 ```
 
 <span id='prepare_textbind_weights'/>
@@ -105,7 +102,7 @@ bash scripts/run_demo.sh
 
 ### 3. Train Your Own Models Using Our TextBind Recipe: <a href='#content'>[Back to Top]</a>
 
-**Prerequisites:** Before training the model, making sure the environment is properly installed and the BLIP-2 vision model and Q-Former have been prepared. You can refer to <a href='#install_environment'>[Here]</a> for more information.  
+**Prerequisites:** Before training the model, making sure the environment is properly installed and the vision model has been prepared. You can refer to <a href='#install_environment'>[Here]</a> for more information.  
 
 <span id='data_preparation'/>
 
@@ -137,9 +134,26 @@ For our textbind, you need to download the images manually using the url_list pr
                  └── ...
               
 
+
+<span id='prepare_blip2_qformer'/>
+
+#### 3.2. Prepare BLIP-2 Q-Former:
+BLIP-2 Q-Former is utilized for the initialization of our Q-Former, run:
+```
+import torch
+from transformers import Blip2ForConditionalGeneration
+model = Blip2ForConditionalGeneration.from_pretrained("Salesforce/blip2-flan-t5-xxl")
+
+state_dict = model.state_dict()
+state_dict = {key: value for key, value in state_dict.items() if key.split(".")[0] in ["query_tokens", "qformer"]}
+torch.save(state_dict, "checkpoint/blip2_qformer.pt")
+```
+
+
+
 <span id='training_configurations'/>
 
-#### 3.2 Training Configurations:
+#### 3.3 Training Configurations:
 
 The table below show the training hyperparameters used in our experiments. The hyperparameters are selected based on the constrain of our computational resources, i.e. 8 x A100 (40G) GPUs.
 
@@ -153,7 +167,7 @@ The table below show the training hyperparameters used in our experiments. The h
 <span id='training_textbind'/>
 
 
-#### 3.3. Training TextBind:
+#### 3.4. Training TextBind:
 For the multimodal alignment stage, please set the paths in scripts/run_first_stage.sh as
 ```
 TRAIN_DATA_PATH=${your_first_stage_data_path}
