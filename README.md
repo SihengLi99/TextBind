@@ -14,12 +14,12 @@
 
 ## Content: 
 * <a href='#introduction'>1. Introduction</a>
-* <a href='#running_textbind'>2. Running TextBind</a>
+* <a href='#running_textbind'>2. Build Our Demo Locally</a>
     * <a href='#install_environment'>2.1. Environment Installation</a>
     * <a href='#prepare_blip2_vision_model'>2.2. Prepare BLIP-2 Vsion Model</a>
     * <a href='#prepare_textbind_weights'>2.3. Prepare TextBind Weights</a>
     * <a href='#running_demo'>2.4. Running Demo</a>
-* <a href='#train_textbind'>3. Train Your Own TextBind</a>
+* <a href='#train_textbind'>3. Train Your Own Models Using Our TextBind Recipe</a>
     * <a href='#data_preparation'>3.1. Data Preparation</a>
     * <a href='#training_configurations'>3.2. Training Configurations</a>
     * <a href='#training_textbind'>3.3. Training TextBind</a>
@@ -42,7 +42,7 @@ Large language models with instruction-following abilities have revolutionized t
 
 <span id='running_textbind'/>
 
-### 2. Running TextBind: <a href='#content'>[Back to Top]</a>
+### 2. Build Our Demo Locally: <a href='#content'>[Back to Top]</a>
 
 <span id='install_environment'/>
 
@@ -103,7 +103,7 @@ bash scripts/run_demo.sh
 
 <span id='train_textbind'/>
 
-### 3. Train Your Own TextBind: <a href='#content'>[Back to Top]</a>
+### 3. Train Your Own Models Using Our TextBind Recipe: <a href='#content'>[Back to Top]</a>
 
 **Prerequisites:** Before training the model, making sure the environment is properly installed and the BLIP-2 vision model and Q-Former have been prepared. You can refer to <a href='#install_environment'>[Here]</a> for more information.  
 
