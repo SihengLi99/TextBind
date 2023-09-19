@@ -4,8 +4,9 @@
 ![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)
 ![Model Weight License](https://img.shields.io/badge/Model_Weight%20License-CC%20By%20NC%204.0-red.svg)
 
+
 <p align="left">
-   🌐 <a href="https://textbind.github.io" target="_blank">Project Page</a> • 🤗 <a href="https://ailabnlp.tencent.com/research_demos/textbind/" target="_blank">Online Demo</a> • 📃 <a href="http://arxiv.org/abs/2305.16355" target="_blank">Paper</a> •  ⏬ <a href="https://drive.google.com/drive/folders/1-SkzQRInSfrVyZeB0EZJzpCPXXwHb27W?usp=sharing" target="_blank">Data</a> • 🤖 <a href="https://huggingface.co/SihengLi/TextBind" target="_blank">Model</a>
+   🌐 <a href="https://textbind.github.io" target="_blank">Project Page</a> • 🤗 <a href="https://ailabnlp.tencent.com/research_demos/textbind/" target="_blank">Online Demo</a> • 📃 <a href="http://arxiv.org/abs/2309.08637" target="_blank">Paper</a> •  ⏬ <a href="https://drive.google.com/drive/folders/1-SkzQRInSfrVyZeB0EZJzpCPXXwHb27W?usp=sharing" target="_blank">Data</a> • 🤖 <a href="https://huggingface.co/SihengLi/TextBind" target="_blank">Model</a>
 </p>
 
 
@@ -214,7 +215,7 @@ TextBind is intended and licensed for research use only. The dataset is CC BY NC
 If you found TextBind useful in your research or applications, please kindly cite using the following BibTeX:
 ```
 @article{li2023textbind,
-  title={TextBind: Multi-turn Interleaved Multimodal Instruction-following},
+  title={TextBind: Multi-turn Interleaved Multimodal Instruction-following in the Wild},
   author={Li, Huayang and Li, Siheng and Cai, Deng and Wang, Longyue and Liu, Lemao and Watanabe, Taro and Yang, Yujiu and Shi, Shuming},
   year={2023}
 }
